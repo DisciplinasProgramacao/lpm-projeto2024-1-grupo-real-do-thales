@@ -38,7 +38,7 @@ class RequisicaoTest {
     }
 
     @Test
-    void testEncerrarComHoraSaidaAntesDeHoraEntrada() {
+        void testEncerrarComHoraSaidaAntesDeHoraEntrada() {
         Cliente cliente = new Cliente("Cliente1");
         Requisicao req = new Requisicao(cliente, LocalDate.now(), LocalTime.of(14, 0), 4);
 
