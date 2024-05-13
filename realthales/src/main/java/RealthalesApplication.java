@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class App {
+public class RealthalesApplication {
     static Scanner teclado;
     static Restaurante restaurante;
 
