@@ -22,7 +22,7 @@ public class Pedido {
     public void calcularValorTotal() {
         double valorTotal = 0.0;
         for (Produto produto : produtos) {
-            valorTotal += produto.getValorProduto();
+            valorTotal += produto.getValor();
         }
     }
 
