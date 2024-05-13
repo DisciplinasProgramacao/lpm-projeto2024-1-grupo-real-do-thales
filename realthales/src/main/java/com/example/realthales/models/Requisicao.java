@@ -7,6 +7,7 @@ public class Requisicao {
 
 	private Cliente cliente;
 	private Mesa mesa;
+	private Pedido pedido;
 	private int quantPessoas;
 	private LocalDateTime entrada;
 	private LocalDateTime saida;
@@ -20,6 +21,7 @@ public class Requisicao {
 		entrada = saida = null;
 		mesa = null;
 		encerrada = false;
+		pedido = new Pedido();
 	}
 
 	public Mesa encerrar() {
@@ -63,4 +65,20 @@ public class Requisicao {
 		}
 		return stringReq.toString();
 	}
+
+	public void adicionarProdutoAoPedido(Produto produto) {
+        pedido.adicionarProduto(produto);
+    }
+
+    public List<Produto> fecharConta() {
+        pedido.calcularValorTotal();
+        float valorTotal = pedido.getValorTotal();
+        float valorCom10 = pedido.calcularValor10();
+        List<Produto> produtos = pedido.getProdutos();
+
+
+        pedido = new Pedido();
+
+        return produtos;
+    }
 }
