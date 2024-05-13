@@ -13,12 +13,12 @@ public class Pedido {
         produtos = new ArrayList<>();
     }
 
-      // Método para adicionar um produto ao pedido
+
       public void adicionarProduto(Produto produto) {
         produtos.add(produto);
     }
 
-    // Método para calcular o valor total do pedido
+
     public void calcularValorTotal() {
         double valorTotal = 0.0;
         for (Produto produto : produtos) {
