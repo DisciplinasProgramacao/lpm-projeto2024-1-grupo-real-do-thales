@@ -1,3 +1,4 @@
+package com.example.realthales.models;
 
 public class Cliente {
 
