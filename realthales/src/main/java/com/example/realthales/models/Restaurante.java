@@ -1,3 +1,5 @@
+package com.example.realthales.models;
+
 
 public class Restaurante {
 

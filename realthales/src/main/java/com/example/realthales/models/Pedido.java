@@ -1,3 +1,5 @@
+package com.example.realthales.models;
+
 import java.util.ArrayList;
 import java.util.List;
 
