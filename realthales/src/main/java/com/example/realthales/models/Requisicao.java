@@ -2,6 +2,8 @@ package com.example.realthales.models;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Requisicao {
 
@@ -21,7 +23,10 @@ public class Requisicao {
 		entrada = saida = null;
 		mesa = null;
 		encerrada = false;
-		pedido = new Pedido();
+		float valorTotal = 0.0f;
+        float valorCom10 = 0.0f;
+        List<Produto> produtos = new ArrayList<>();
+        pedido = new Pedido(valorTotal, valorCom10, produtos);
 	}
 
 	public Mesa encerrar() {
@@ -70,15 +75,13 @@ public class Requisicao {
         pedido.adicionarProduto(produto);
     }
 
-    public List<Produto> fecharConta() {
-        pedido.calcularValorTotal();
-        float valorTotal = pedido.getValorTotal();
+	public Pedido fecharConta() {
+        float valorTotal = pedido.calcularValorTotal();
         float valorCom10 = pedido.calcularValor10();
         List<Produto> produtos = pedido.getProdutos();
 
+        pedido = new Pedido(valorTotal, valorCom10, produtos); // Resetar o pedido para o próximo uso
 
-        pedido = new Pedido();
-
-        return produtos;
+        return new Pedido(valorTotal, valorCom10, produtos);
     }
 }
