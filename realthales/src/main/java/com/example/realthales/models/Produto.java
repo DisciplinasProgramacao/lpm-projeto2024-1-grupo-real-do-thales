@@ -5,7 +5,7 @@ public class Produto {
     String nomeProduto;
     Double valorProduto;
 
-    public Produto(int idProduto, String nomeProduto, Double valorProduto) {
+    public Produto(String nomeProduto, Double valorProduto) {
         setIdProduto(idProduto);
         if (valorProduto <= 0)
             valorProduto = 0.1;
