@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class Cardapio {
     
-    private List<Item> produtos;
+    private List<Produto> produtos;
     private String arquivoProdutos;
     
     public Cardapio() throws FileNotFoundException{
@@ -24,7 +24,7 @@ public class Cardapio {
             String[] detalhes = linha.split(";");
             String desc = detalhes[0];
             double valor = Double.parseDouble(detalhes[1]);
-            Item produto = new Item(desc, valor);
+            Produto produto = new Produto(desc, valor);
             produtos.add(produto);
         }
     }
@@ -33,16 +33,16 @@ public class Cardapio {
     public String toString(){
         StringBuilder cardapio = new StringBuilder("CARDÁPIO: \n");
         int index = 1;
-        for (Item item : produtos) {
+        for (Produto item : produtos) {
             cardapio.append(index + " - "+item+"\n");
             index++;
         }
         return cardapio.toString();
     }
 
-    public Item getProduto(int index){
+    public Produto getProduto(int index){
         int pos = index-1;
-        Item prod = null;
+        Produto prod = null;
         if(pos>=0 && pos < produtos.size()){
             prod = produtos.get(pos);
         }
