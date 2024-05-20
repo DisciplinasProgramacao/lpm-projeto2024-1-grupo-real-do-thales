@@ -1,5 +1,8 @@
 package com.example.realthales;
 
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import org.springframework.boot.SpringApplication;
@@ -10,6 +13,7 @@ import com.example.realthales.models.Pedido;
 import com.example.realthales.models.Produto;
 import com.example.realthales.models.Requisicao;
 import com.example.realthales.models.Restaurante;
+import com.example.realthales.models.Cardapio;
 
 public class RealthalesApplication {
     static Scanner teclado;
@@ -121,35 +125,27 @@ public class RealthalesApplication {
         pausa();
     }
 
-    static void cadastrarPedido(){
-        int idMesa;
-        int idPedido;
-        String produtosPedidos;
-        System.out.println("Qual o número da mesa que deseja cadastrar o pedido? ");
-        idMesa = Integer.parseInt(teclado.nextLine());
-        Pedido novo = new Pedido();
-        System.out.println("Pedido da mesa " + idMesa + "de id #" + idPedido + ": " + novo.adicionarProduto());
-    }
+    static void cadastrarPedido() throws FileNotFoundException{
+        Cardapio cardapio = new Cardapio();
+        Scanner teclado = new Scanner(System.in);
+        cardapio.toString(); //Pede cardápio
 
-    static void vizaulizarPedidos(){
-            String nome;
-            System.out.println("Pedidos do restaurante " + nome + ":");
-            for (Pedido pedido : pedidos) {
-                System.out.println("Pedido #" + pedido.getNumero() + ":");
-                System.out.println("  Mesa: " + Mesa.idMesa);
-                System.out.println("  Itens do pedido:");
-                for (Produto item : pedido.getItens()) {
-                    System.out.println("    - " + item.getNome() + ": R$" + item.getPreco());
-                }
-                System.out.println("  Total: R$" + pedido.getTotal());
-                System.out.println("-------------");
-            }
+        System.out.println("Escolha o numero do produto: ");
+        int numeroProduto = teclado.nextInt();
+
+        cardapio.getProduto(numeroProduto);
+
+        System.out.println("Qual o número da mesa?");
+        int numeroMesa = teclado.nextInt();
+        
+        restaurante.registrarRequisicao(numeroMesa);
     }
 
     public static void main(String[] args) throws Exception {
         teclado = new Scanner(System.in);
         int opcao;
         restaurante = new Restaurante();
+        var requisicao = new Requisicao(1, null);
         do {
             opcao = MenuPrincipal();
             switch (opcao) {
@@ -167,7 +163,10 @@ public class RealthalesApplication {
                     }
                     pausa();
                 }
-
+                case 7 -> cadastrarPedido();
+                case 8 -> Requisicao req = restaurante.encerrarAtendimento(idMesa);
+                    req.getValorConta();
+            
             }
         } while (opcao != 0);
         teclado.close();
