@@ -1,5 +1,6 @@
 package com.example.realthales.models;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Pedido {
@@ -8,10 +9,10 @@ public class Pedido {
     private float valorCom10;
     private List<Produto> produtos;
 
-    public Pedido(float valorTotal, float valorCom10, List<Produto> produtos) {
-        this.valorTotal = valorTotal;
-        this.valorCom10 = valorCom10;
-        this.produtos = produtos;
+    public Pedido(){
+        this.valorTotal = 0;
+        this.valorCom10 = 0;
+        this.produtos = new LinkedList<>();
     }
 
 

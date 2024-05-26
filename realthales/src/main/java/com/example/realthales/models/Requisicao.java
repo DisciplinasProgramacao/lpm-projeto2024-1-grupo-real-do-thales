@@ -14,6 +14,8 @@ public class Requisicao {
 	private LocalDateTime entrada;
 	private LocalDateTime saida;
 	private boolean encerrada;
+	private float valorTotal;
+	private float valorCom10;
 
 	public Requisicao(int quantPessoas, Cliente cliente) {
 		this.quantPessoas = 1;
@@ -23,15 +25,15 @@ public class Requisicao {
 		entrada = saida = null;
 		mesa = null;
 		encerrada = false;
-		float valorTotal = 0.0f;
-        float valorCom10 = 0.0f;
-        List<Produto> produtos = new ArrayList<>();
-        pedido = new Pedido(valorTotal, valorCom10, produtos);
+        pedido = new Pedido();
 	}
 
 	public Mesa encerrar() {
 		saida = LocalDateTime.now();
 		mesa.desocupar();
+		fecharConta();
+		retornarValor();
+		retornarValorPorPessoa();
 		encerrada = true;
 		return mesa;
 	}
@@ -78,10 +80,17 @@ public class Requisicao {
 	public Pedido fecharConta() {
         float valorTotal = pedido.calcularValorTotal();
         float valorCom10 = pedido.calcularValor10();
-        List<Produto> produtos = pedido.getProdutos();
-
-        pedido = new Pedido(valorTotal, valorCom10, produtos); // Resetar o pedido para o próximo uso
-
-        return new Pedido(valorTotal, valorCom10, produtos);
+       
+		return pedido;
+       
     }
+
+	public float retornarValor(){
+		return valorCom10;
+	}	
+
+	public float retornarValorPorPessoa(){
+		float valorPorPessoa = (valorCom10/quantPessoas);
+		return valorPorPessoa;
+	}
 }
