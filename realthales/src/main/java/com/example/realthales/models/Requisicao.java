@@ -31,7 +31,7 @@ public class Requisicao {
 	public Mesa encerrar() {
 		saida = LocalDateTime.now();
 		mesa.desocupar();
-		fecharConta();
+		fecharPedido();
 		retornarValor();
 		retornarValorPorPessoa();
 		encerrada = true;
@@ -77,20 +77,20 @@ public class Requisicao {
         pedido.adicionarProduto(produto);
     }
 
-	public Pedido fecharConta() {
-        float valorTotal = pedido.calcularValorTotal();
-        float valorCom10 = pedido.calcularValor10();
-       
-		return pedido;
-       
-    }
+	private void fecharPedido() {
+		valorTotal = pedido.calcularValorTotal();
+		valorCom10 = pedido.calcularValor10();
+	}
 
-	public float retornarValor(){
-		return valorCom10;
-	}	
 
-	public float retornarValorPorPessoa(){
-		float valorPorPessoa = (valorCom10/quantPessoas);
-		return valorPorPessoa;
+	public float retornarValor() {
+		return valorTotal;
+	}
+
+	public float retornarValorPorPessoa() {
+		if (quantPessoas > 0) {
+			return valorCom10 / quantPessoas;
+		}
+		return 0;
 	}
 }

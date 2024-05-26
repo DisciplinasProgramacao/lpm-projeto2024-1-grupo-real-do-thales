@@ -33,7 +33,7 @@ public class Pedido {
     }
 
     public float calcularValor10(){
-        valorCom10 = (float) (valorTotal * 0.10);
+        valorCom10 = (float) (valorTotal+(valorTotal * 0.10));
         return valorCom10;
     }
 
