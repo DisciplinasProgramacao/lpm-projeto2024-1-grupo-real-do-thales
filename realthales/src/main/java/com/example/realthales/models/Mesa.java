@@ -3,45 +3,55 @@ package com.example.realthales.models;
 public class Mesa {
 
 	private static int ultimoID;
-	private int idMesa;
-	private int capacidade;
-	private boolean ocupada;
+    private int idMesa;
+    private int capacidade;
+    private boolean ocupada;
 
-	static{
-		ultimoID = 0;
-	}
-	public Mesa(int capacidade) {
-		this.capacidade = 2;
-		if(capacidade>2)
-			this.capacidade = capacidade;
-		idMesa = ++ultimoID;
-		ocupada = false;
-	}
+    static {
+        ultimoID = 0;
+    }
 
-	public void ocupar() {
-		ocupada = true;
-	}
+    public Mesa(int capacidade) {
+        this.capacidade = 2;
+        if (capacidade > 2)
+            this.capacidade = capacidade;
+        idMesa = ++ultimoID;
+        ocupada = false;
+    }
 
-	public void desocupar() {
-		ocupada = false;
-	}
+    public void ocupar() {
+        ocupada = true;
+    }
 
-	public boolean estahLiberada(int quantPessoas) {
-		return (quantPessoas <= capacidade && !ocupada);
-	}
+    public void desocupar() {
+        ocupada = false;
+    }
 
-	public int getIdMesa(){
-		return idMesa;
-	}
-	
-	public String toString(){
-		String descricao = String.format("Mesa %02d (%d pessoas), ",idMesa, capacidade);
-		if(ocupada)
-			descricao += "ocupada.";
-		else 
-			descricao += "liberada.";
-		
-		return descricao;
-	}
+    public boolean estahLiberada(int quantPessoas) {
+        return (quantPessoas <= capacidade && !ocupada);
+    }
+
+    public int getIdMesa() {
+        return idMesa;
+    }
+
+    public int getCapacidade() {
+        return capacidade;
+    }
+
+    public boolean isOcupada() {
+        return ocupada;
+    }
+
+    @Override
+    public String toString() {
+        String descricao = String.format("Mesa %02d (%d pessoas), ", idMesa, capacidade);
+        if (ocupada)
+            descricao += "ocupada.";
+        else
+            descricao += "liberada.";
+
+        return descricao;
+    }
 
 }
