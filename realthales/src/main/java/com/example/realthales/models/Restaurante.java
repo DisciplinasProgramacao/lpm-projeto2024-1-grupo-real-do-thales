@@ -143,6 +143,28 @@ public class Restaurante {
         return cardapio.toString();
     }
 
+	public String adicionarProdutoAMesa(int codigoProduto, int idMesa) {
+        Produto produto = cardapio.getProduto(codigoProduto);
+        if (produto == null) {
+            return "Produto não encontrado";
+        }
+
+        Requisicao requisicao = null;
+        for (int i = 0; i < requisicoesAtendidas; i++) {
+            if (atendidas[i].ehDaMesa(idMesa) && !atendidas[i].estahEncerrada()) {
+                requisicao = atendidas[i];
+                break;
+            }
+        }
+
+        if (requisicao == null) {
+            return "Mesa não encontrada ou atendimento já encerrado";
+        }
+
+        requisicao.adicionarProdutoAoPedido(produto);
+        return "Produto adicionado à mesa " + idMesa;
+    }
+
 
 	//metódo para receber o codigo de produto, identificador da mesa e adicionar o produto na requisição da mesa
 
