@@ -1,5 +1,6 @@
 package com.example.realthales.models;
 
+import java.io.FileNotFoundException;
 
 public class Restaurante {
 
@@ -14,14 +15,16 @@ public class Restaurante {
 	private int quantMesas;
 	private int requisicoesAtendidas;
 	private int requisicoesEmEspera;
+	private Cardapio cardapio;
 
-	public Restaurante() {
+	public Restaurante() throws FileNotFoundException {
 		mesas = new Mesa[MAX_MESAS];
 		clientes = new Cliente[MAX_CLIENTES];
 		atendidas = new Requisicao[MAX_FILA];
 		espera = new Requisicao[MAX_FILA];
 		quantMesas = quantClientes = requisicoesAtendidas = requisicoesEmEspera = 0;
 		criarMesas();
+		cardapio = new Cardapio();
 	}
 
 	private void criarMesas() {
@@ -135,5 +138,12 @@ public class Restaurante {
 		}
 		return resposta;
 	}
+
+	public String exibirCardapio() {
+        return cardapio.toString();
+    }
+
+
+	//metódo para receber o codigo de produto, identificador da mesa e adicionar o produto na requisição da mesa
 
 }
