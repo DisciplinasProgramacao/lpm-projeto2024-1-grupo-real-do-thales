@@ -19,7 +19,7 @@ public class Requisicao {
 
 	public Requisicao(int quantPessoas, Cliente cliente) {
 		this.quantPessoas = 1;
-		if(quantPessoas > 1 )
+		if(quantPessoas > 1)
 			this.quantPessoas = quantPessoas;
 		this.cliente = cliente;
 		entrada = saida = null;
@@ -32,8 +32,6 @@ public class Requisicao {
 		saida = LocalDateTime.now();
 		mesa.desocupar();
 		fecharPedido();
-		retornarValor();
-		retornarValorPorPessoa();
 		encerrada = true;
 		return mesa;
 	}
@@ -79,12 +77,15 @@ public class Requisicao {
 
 	private void fecharPedido() {
 		valorTotal = pedido.calcularValorTotal();
-		valorCom10 = pedido.calcularValor10();
+		valorCom10 = (float) (valorTotal + (valorTotal * 0.10));
 	}
-
 
 	public float retornarValor() {
 		return valorTotal;
+	}
+
+	public float retornarValor10() {
+		return valorCom10;
 	}
 
 	public float retornarValorPorPessoa() {
@@ -93,4 +94,15 @@ public class Requisicao {
 		}
 		return 0;
 	}
+
+    public String pedidoDetalhes() {
+        StringBuilder detalhes = new StringBuilder();
+        for (Produto produto : pedido.getProdutos()) {
+            detalhes.append(produto.toString()).append("\n");
+        }
+        if (detalhes.length() == 0) {
+            detalhes.append("Nenhum produto cadastrado no pedido.");
+        }
+        return detalhes.toString();
+    }
 }

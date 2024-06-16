@@ -13,7 +13,7 @@ public class Cardapio {
 
     public Cardapio() throws FileNotFoundException {
         produtos = new ArrayList<>(11);
-        arquivoProdutos = "dadosProdutos.csv";
+        arquivoProdutos = "realthales/src/main/resources/dadosProdutos.csv";
         carregarCardapio(arquivoProdutos);
     }
 

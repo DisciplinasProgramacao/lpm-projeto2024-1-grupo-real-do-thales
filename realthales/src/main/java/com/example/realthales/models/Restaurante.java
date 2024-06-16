@@ -9,11 +9,11 @@ public class Restaurante {
 	private static int MAX_CLIENTES = 1000;
 	private Mesa[] mesas;
 	private Cliente[] clientes;
-	private Requisicao[] atendidas;
+	public Requisicao[] atendidas;
 	private Requisicao[] espera;
 	private int quantClientes;
 	private int quantMesas;
-	private int requisicoesAtendidas;
+	public int requisicoesAtendidas;
 	private int requisicoesEmEspera;
 	private Cardapio cardapio;
 
@@ -102,8 +102,8 @@ public class Restaurante {
 		espera[requisicoesEmEspera] = null;
 	}
 
-	public void registrarRequisicao(Requisicao novaRequisicao) {
-		espera[requisicoesEmEspera] = novaRequisicao;
+	public void registrarRequisicao(Requisicao numeroMesa) {
+		espera[requisicoesEmEspera] = numeroMesa;
 		requisicoesEmEspera++;
 	}
 
