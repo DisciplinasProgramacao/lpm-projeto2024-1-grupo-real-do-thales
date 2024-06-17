@@ -40,7 +40,6 @@ public class RealthalesApplication {
         System.out.println("5 - Processar Fila");
         System.out.println("6 - Verificar Pedidos");
         System.out.println("7 - Cadastrar Pedido");
-        System.out.println("8 - Encerrar Pedido");
         System.out.println("0 - Sair");
         System.out.print("Digite sua opção: ");
         opcao = Integer.parseInt(teclado.nextLine());
@@ -109,6 +108,7 @@ public class RealthalesApplication {
         System.out.print("Qual o número da mesa para encerrar atendimento? ");
         idMesa = Integer.parseInt(teclado.nextLine());
         Requisicao finalizada = restaurante.encerrarAtendimento(idMesa);
+
         if (finalizada != null) {
             System.out.println(finalizada);
         } else {
@@ -168,19 +168,7 @@ public class RealthalesApplication {
                 case 1 -> exibirMesas();
                 case 2 -> mostrarFila();
                 case 3 -> solicitarMesa();
-                case 4 -> encerrarMesa();
-                case 5 -> {
-                    Requisicao atendida = processarFila();
-                    if (atendida != null) {
-                        System.out.println(atendida);
-                    } else {
-                        System.out.println("Fila vazia ou mesas não disponíveis. Favor verificar a situação.");
-                    }
-                    pausa();
-                }
-                case 6 -> mostrarPedido();
-                case 7 -> cadastrarPedido();
-                case 8 -> {
+                case 4 -> {
                     System.out.print("Qual o número da mesa para encerrar o pedido? ");
                     int idMesa = Integer.parseInt(teclado.nextLine());
                     Requisicao req = restaurante.encerrarAtendimento(idMesa);
@@ -196,6 +184,17 @@ public class RealthalesApplication {
                     }
                     pausa();
                 }
+                case 5 -> {
+                    Requisicao atendida = processarFila();
+                    if (atendida != null) {
+                        System.out.println(atendida);
+                    } else {
+                        System.out.println("Fila vazia ou mesas não disponíveis. Favor verificar a situação.");
+                    }
+                    pausa();
+                }
+                case 6 -> mostrarPedido();
+                case 7 -> cadastrarPedido();
             }
         } while (opcao != 0);
         teclado.close();
