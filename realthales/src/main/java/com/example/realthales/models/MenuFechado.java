@@ -3,9 +3,8 @@ package com.example.realthales.models;
 import java.util.Scanner;
 
 public class MenuFechado {
-    // Preço fixo do menu fechado
+
     private static final double PRECO_MENU = 32.00;
-    // Taxa de serviço
     private static final double TAXA_SERVICO = 0.10; // 10%
 
     public static void main(String[] args) {

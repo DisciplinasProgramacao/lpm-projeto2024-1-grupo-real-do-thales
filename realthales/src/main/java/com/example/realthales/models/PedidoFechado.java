@@ -7,6 +7,7 @@ public class PedidoFechado extends Pedido{
     private static final double MENU_FIXO_PRECO = 32;
     private static final double TAXA_SERVICO = 0.10;
     private int quantidadePessoas;
+    private List<Produto> produtos;
 
     public PedidoFechado() {
         super();
@@ -27,7 +28,7 @@ public class PedidoFechado extends Pedido{
     @Override
     public void adicionarProduto(Produto produto) {
         if (EProdutoMenuFechado.produtoEhValido(produto.getIdProduto())) {
-            getProdutos().add(produto);
+            produtos.add(produto);
         } else {
             throw new IllegalArgumentException("Opção não está disponível no menu fechado.");
         }
