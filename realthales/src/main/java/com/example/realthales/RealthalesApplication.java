@@ -5,8 +5,6 @@ import java.util.Scanner;
 
 import com.example.realthales.models.Cardapio;
 import com.example.realthales.models.Cliente;
-import com.example.realthales.models.EProdutoMenuFechado;
-import com.example.realthales.models.Produto;
 import com.example.realthales.models.Requisicao;
 import com.example.realthales.models.Restaurante;
 import com.example.realthales.models.MenuFechado;
@@ -127,7 +125,6 @@ public class RealthalesApplication {
 
         System.out.print("Escolha o número do produto: ");
         int numeroProduto = Integer.parseInt(teclado.nextLine());
-        Produto produto = cardapio.getProduto(numeroProduto);
 
         System.out.print("Qual o número da mesa? ");
         int numeroMesa = Integer.parseInt(teclado.nextLine());
