@@ -5,9 +5,11 @@ import java.util.Scanner;
 
 import com.example.realthales.models.Cardapio;
 import com.example.realthales.models.Cliente;
+import com.example.realthales.models.EProdutoMenuFechado;
 import com.example.realthales.models.Produto;
 import com.example.realthales.models.Requisicao;
 import com.example.realthales.models.Restaurante;
+import com.example.realthales.models.MenuFechado;
 
 
 public class RealthalesApplication {
@@ -40,6 +42,7 @@ public class RealthalesApplication {
         System.out.println("5 - Processar Fila");
         System.out.println("6 - Verificar Pedidos");
         System.out.println("7 - Cadastrar Pedido");
+        System.out.println("8 - Cadastrar Pedido Fechado");
         System.out.println("0 - Sair");
         System.out.print("Digite sua opção: ");
         opcao = Integer.parseInt(teclado.nextLine());
@@ -157,6 +160,13 @@ public class RealthalesApplication {
         }
         pausa();
     }
+    static void cadastrarPedidoFechado() {
+        cabecalho();
+        MenuFechado menuFechado = new MenuFechado();
+        menuFechado.FazerPedidoFechado(null);
+        pausa();
+    }
+
 
     public static void main(String[] args) throws Exception {
         teclado = new Scanner(System.in);
@@ -195,6 +205,7 @@ public class RealthalesApplication {
                 }
                 case 6 -> mostrarPedido();
                 case 7 -> cadastrarPedido();
+                case 8 -> cadastrarPedidoFechado();
             }
         } while (opcao != 0);
         teclado.close();

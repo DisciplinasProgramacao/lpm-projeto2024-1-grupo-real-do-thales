@@ -1,5 +1,6 @@
 package com.example.realthales.models;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class PedidoFechado extends Pedido{
