@@ -1,25 +1,28 @@
 package com.example.realthales.models;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Restaurante {
 
+	private static int MAX_FILA = 1000;
 	private static int MAX_MESAS = 10;
-	private List<Mesa> mesas;
-	private List<Cliente> clientes;
-	private List<Requisicao> atendidas;
-	private List<Requisicao> espera;
+	private static int MAX_CLIENTES = 1000;
+	private Mesa[] mesas;
+	private Cliente[] clientes;
+	public Requisicao[] atendidas;
+	private Requisicao[] espera;
+	private int quantClientes;
+	private int quantMesas;
+	public int requisicoesAtendidas;
+	private int requisicoesEmEspera;
 	private Cardapio cardapio;
 
 	public Restaurante() throws FileNotFoundException {
-		mesas = new ArrayList<>(MAX_MESAS);
-		clientes = new ArrayList<>();
-		atendidas = new ArrayList<>();
-		espera = new ArrayList<>();
+		mesas = new Mesa[MAX_MESAS];
+		clientes = new Cliente[MAX_CLIENTES];
+		atendidas = new Requisicao[MAX_FILA];
+		espera = new Requisicao[MAX_FILA];
+		quantMesas = quantClientes = requisicoesAtendidas = requisicoesEmEspera = 0;
 		criarMesas();
 		cardapio = new Cardapio();
 	}
@@ -27,114 +30,140 @@ public class Restaurante {
 	private void criarMesas() {
 
 		for (int i = 0; i < 4; i++) {
-			mesas.add(new Mesa(4));
+			mesas[quantMesas] = new Mesa(4);
+			quantMesas++;
 		}
 		for (int i = 0; i < 4; i++) {
-			mesas.add(new Mesa(6));
+			mesas[quantMesas] = new Mesa(6);
+			quantMesas++;
 		}
 		for (int i = 0; i < 2; i++) {
-			mesas.add(new Mesa(8));
+			mesas[quantMesas] = new Mesa(8);
+			quantMesas++;
 		}
 	}
 
 	public void addCliente(Cliente novo) {
-		clientes.add(novo);
+		clientes[quantClientes] = novo;
+		quantClientes++;
 	}
 
-	public Cliente localizarCliente(int idCli) throws IllegalArgumentException {
-		return clientes.stream()
-				.filter(cliente -> cliente.hashCode() == idCli)
-				.findFirst()
-				.orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+	public Cliente localizarCliente(int idCli) {
+		boolean achou = false;
+		Cliente cliente = null;
+		for (int i = 0; i < quantClientes && !achou; i++) {
+			if (clientes[i].hashCode() == idCli) {
+				achou = true;
+				cliente = clientes[i];
+			}
+		}
+		return cliente;
 	}
 
-	private Mesa localizarMesaDisponivel(int quantPessoas) throws IllegalStateException {
-		return mesas.stream()
-				.filter(mesa -> mesa.estahLiberada(quantPessoas))
-				.findFirst()
-				.orElseThrow(() -> new IllegalStateException("Não há mesas disponíveis para a quantidade de pessoas"));
+	private Mesa localizarMesaDisponivel(int quantPessoas) {
+		Mesa liberada = null;
+		for (int i = 0; i < quantMesas && liberada == null; i++) {
+			if (mesas[i].estahLiberada(quantPessoas))
+				liberada = mesas[i];
+		}
+		return liberada;
 	}
 
-	public Requisicao encerrarAtendimento(int idMesa) throws IllegalArgumentException {
-		Requisicao encerrada = atendidas.stream()
-				.filter(requisicao -> !requisicao.estahEncerrada() && requisicao.ehDaMesa(idMesa))
-				.findFirst()
-				.orElseThrow(() -> new IllegalArgumentException("Atendimento não encontrado para a mesa " + idMesa));
-
-		encerrada.encerrar();
+	public Requisicao encerrarAtendimento(int idMesa) {
+		Requisicao encerrada = null;
+		for (int i = requisicoesAtendidas - 1; i >= 0 && encerrada == null; i--) {
+			if (!atendidas[i].estahEncerrada() && atendidas[i].ehDaMesa(idMesa)) {
+				atendidas[i].encerrar();
+				encerrada = atendidas[i];
+			}
+		}
 		return encerrada;
 	}
 
-	public Requisicao processarFila() throws IllegalStateException {
-		Requisicao atendida = espera.stream()
-				.filter(requisicao -> {
-					try {
-						Mesa mesaLivre = localizarMesaDisponivel(requisicao.quantPessoas());
-						if (mesaLivre != null) {
-							atenderRequisicao(requisicao, mesaLivre);
-							return true;
-						}
-					} catch (IllegalStateException e) {
-						
-					}
-					return false;
-				})
-				.findFirst()
-				.orElseThrow(() -> new IllegalStateException("Nenhuma requisição pode ser atendida no momento"));
-
-		espera.remove(atendida);
+	public Requisicao processarFila() {
+		Requisicao atendida = null;
+		for (int i = 0; i < requisicoesEmEspera && atendida == null; i++) {
+			Requisicao requisicao = espera[i];
+			Mesa mesaLivre = localizarMesaDisponivel(requisicao.quantPessoas());
+			if (mesaLivre != null) {
+				atenderRequisicao(requisicao, mesaLivre);
+				retirarDaFila(i);
+				atendida = requisicao;
+			}
+		}
 		return atendida;
 	}
 
+	private void retirarDaFila(int pos) {
+		for (int i = pos + 1; i < requisicoesEmEspera; i++) {
+			espera[pos] = espera[pos + 1];
+		}
+		requisicoesEmEspera--;
+		espera[requisicoesEmEspera] = null;
+	}
+
 	public void registrarRequisicao(Requisicao numeroMesa) {
-		espera.add(numeroMesa);
+		espera[requisicoesEmEspera] = numeroMesa;
+		requisicoesEmEspera++;
 	}
 
 	private void atenderRequisicao(Requisicao requisicao, Mesa mesa) {
 		requisicao.alocarMesa(mesa);
-		atendidas.add(requisicao);
+		atendidas[requisicoesAtendidas] = requisicao;
+		requisicoesAtendidas++;
 	}
 
 	public String statusMesas() {
-		StringBuilder status = new StringBuilder();
-		status.append("Mesas livres: \n");
-		mesas.stream()
-				.filter(mesa -> mesa.estahLiberada(1))
-				.forEach(mesa -> status.append(mesa).append("\n"));
-		status.append("Mesas em atendimento: \n");
-		mesas.stream()
-				.filter(mesa -> !mesa.estahLiberada(1))
-				.forEach(mesa -> status.append(mesa).append("\n"));
-		return status.toString();
+		StringBuilder livres = new StringBuilder("Mesas livres: \n");
+		StringBuilder ocupadas = new StringBuilder("Mesas em atendimento: \n");
+		for (int i = 0; i < quantMesas; i++) {
+			if (mesas[i].estahLiberada(1)) {
+				livres.append(mesas[i] + "\n");
+			}
+			else {
+				ocupadas.append(mesas[i] + "\n");
+			}
+		}
+		return livres.toString()+ocupadas.toString();
 	}
 
 	public String filaDeEspera() {
-		if (espera.isEmpty()) {
-			return "Fila vazia";
+		String resposta = "Fila vazia";
+		if (requisicoesEmEspera > 0) {
+			StringBuilder emEspera = new StringBuilder("Fila de espera: \n");
+			for (int i = 0; i < requisicoesEmEspera; i++) {
+					emEspera.append(espera[i]+"\n");
+			}
+			resposta =  emEspera.toString();
 		}
-		return espera.stream()
-				.map(Requisicao::toString)
-				.collect(Collectors.joining("\n", "Fila de espera: \n", ""));
+		return resposta;
 	}
 
 	public String exibirCardapio() {
-		return cardapio.toString();
-	}
+        return cardapio.toString();
+    }
 
-	public String adicionarProdutoAMesa(int codigoProduto, int idMesa) throws IllegalArgumentException {
-		Produto produto = Optional.ofNullable(cardapio.getProduto(codigoProduto))
-				.orElseThrow(() -> new IllegalArgumentException("Produto não encontrado"));
+	public String adicionarProdutoAMesa(int codigoProduto, int idMesa) {
+        Produto produto = cardapio.getProduto(codigoProduto);
+        if (produto == null) {
+            return "Produto não encontrado";
+        }
 
-		Requisicao requisicao = atendidas.stream()
-				.filter(req -> req.ehDaMesa(idMesa) && !req.estahEncerrada())
-				.findFirst()
-				.orElseThrow(() -> new IllegalArgumentException("Mesa não encontrada ou atendimento já encerrado"));
+        Requisicao requisicao = null;
+        for (int i = 0; i < requisicoesAtendidas; i++) {
+            if (atendidas[i].ehDaMesa(idMesa) && !atendidas[i].estahEncerrada()) {
+                requisicao = atendidas[i];
+                break;
+            }
+        }
 
-		requisicao.adicionarProdutoAoPedido(produto);
-		return "Produto adicionado à mesa " + idMesa;
-	}
+        if (requisicao == null) {
+            return "Mesa não encontrada ou atendimento já encerrado";
+        }
 
-	public List<Requisicao> getAtendidas() {
-		return atendidas;
-	}
+        requisicao.adicionarProdutoAoPedido(produto);
+        return "Produto adicionado à mesa " + idMesa;
+    }
+
+
 }
