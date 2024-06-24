@@ -75,7 +75,7 @@ public class Restaurante {
 							return true;
 						}
 					} catch (IllegalStateException e) {
-						// Continue checking other requests
+						
 					}
 					return false;
 				})
