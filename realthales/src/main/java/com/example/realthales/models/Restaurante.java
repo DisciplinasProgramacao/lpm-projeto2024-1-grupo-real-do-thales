@@ -133,4 +133,8 @@ public class Restaurante {
 		requisicao.adicionarProdutoAoPedido(produto);
 		return "Produto adicionado à mesa " + idMesa;
 	}
+
+	public List<Requisicao> getAtendidas() {
+		return atendidas;
+	}
 }

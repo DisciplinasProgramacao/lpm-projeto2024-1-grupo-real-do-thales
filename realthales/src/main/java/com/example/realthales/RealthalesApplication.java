@@ -1,6 +1,7 @@
 package com.example.realthales;
 
 import java.io.FileNotFoundException;
+import java.util.Optional;
 import java.util.Scanner;
 
 import com.example.realthales.models.Cardapio;
@@ -140,23 +141,20 @@ public class RealthalesApplication {
         cabecalho();
         System.out.print("Digite o número da mesa para ver o pedido: ");
         idMesa = Integer.parseInt(teclado.nextLine());
-
-        Requisicao requisicao = null;
-        for (int i = 0; i < restaurante.requisicoesAtendidas; i++) {
-            if (restaurante.atendidas[i].ehDaMesa(idMesa) && !restaurante.atendidas[i].estahEncerrada()) {
-                requisicao = restaurante.atendidas[i];
-                break;
-            }
-        }
-
-        if (requisicao != null) {
+    
+        Optional<Requisicao> requisicao = restaurante.getAtendidas().stream()
+            .filter(r -> r.ehDaMesa(idMesa) && !r.estahEncerrada())
+            .findFirst();
+    
+        if (requisicao.isPresent()) {
             System.out.println("Pedido da mesa " + idMesa + ":");
-            System.out.println(requisicao.pedidoDetalhes());
+            System.out.println(requisicao.get().pedidoDetalhes());
         } else {
             System.out.println("Mesa " + idMesa + " não está em atendimento ou atendimento já encerrado.");
         }
         pausa();
     }
+
     static void cadastrarPedidoFechado() {
         cabecalho();
         MenuFechado menuFechado = new MenuFechado();
