@@ -166,6 +166,4 @@ public class Restaurante {
     }
 
 
-	//metódo para receber o codigo de produto, identificador da mesa e adicionar o produto na requisição da mesa
-
 }

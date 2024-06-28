@@ -7,7 +7,7 @@ public class MenuFechado {
     private static final double PRECO_MENU = 32.00;
     private static final double TAXA_SERVICO = 0.10; // 10%
 
-    public static void main(String[] args) {
+    public void FazerPedidoFechado(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
         // Exibir opções de comida
@@ -26,7 +26,7 @@ public class MenuFechado {
         }
         int opcaoBebida1 = scanner.nextInt();
         int opcaoBebida2 = scanner.nextInt();
-        scanner.close();
+
         // Validar escolhas
         if (opcaoComida < 1 || opcaoComida > comidas.length || 
             opcaoBebida1 < 1 || opcaoBebida1 > bebidas.length || 

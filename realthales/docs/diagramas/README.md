@@ -16,3 +16,6 @@ Versao 03
 Versao 04
 
 <img src="Diagrama4.png"></img>
+
+Versao 05
+<img src="Diagrama-24-06.png"></img>
