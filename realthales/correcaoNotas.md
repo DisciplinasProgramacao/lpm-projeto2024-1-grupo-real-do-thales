@@ -71,6 +71,20 @@ App com os mesmos problemas - André - 0
 
 Restaurante parcialmente corrigido - mostrar conta etc. - João - 12
 	
+## Sprint 4 - Apresentação em 24/06
+  - Nota de grupo 6/6 pontos
+    - Modelo atualizado
+    - Apresentação
 	
+  - Nota individual (14 pontos)
+    - Ajustes do último quadro "Projeto GitHub"
+    - Correções das sprints anteriores
+
+### Commits SP4
+MenuFechado (Andre) - Totalmente fora dos padrões de modularidade. 2
+
+Restaurante (João) - sem streams. sem tratamento de exceções. sem lançar exceções adequadas. 3
+
+Main (Gabriel) - sem exceções. 9	
 
 	
